@@ -1,0 +1,15 @@
+{
+    "name": "rdkafka-d",
+    "description": "rdkafka",
+    "homepage": "",
+    "copyright": "Copyright © ",
+    "authors": [
+        "Yannick Koechlin"
+    ],
+    "license": "public domain",
+    "description": "rdkafka Deimos Bindings.",
+    "importPaths": ["."],
+    "targetType" : "library",
+    "sourcePaths" : [ "./deimos" ],
+    "libs" : ["rdkafka"]
+}
