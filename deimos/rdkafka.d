@@ -1,20 +1,15 @@
+module kafka;
+
 import core.stdc.stdio;
+import core.sys.posix.sys.types; 
 
 extern (C):
 
-alias rd_kafka_type_t rd_kafka_type_t;
-alias rd_kafka_s rd_kafka_t;
-alias rd_kafka_topic_s rd_kafka_topic_t;
-alias rd_kafka_conf_s rd_kafka_conf_t;
-alias rd_kafka_topic_conf_s rd_kafka_topic_conf_t;
-alias rd_kafka_queue_s rd_kafka_queue_t;
-alias _Anonymous_0 rd_kafka_resp_err_t;
-alias rd_kafka_message_s rd_kafka_message_t;
-alias _Anonymous_1 rd_kafka_conf_res_t;
-alias rd_kafka_metadata_broker rd_kafka_metadata_broker_t;
-alias rd_kafka_metadata_partition rd_kafka_metadata_partition_t;
-alias rd_kafka_metadata_topic rd_kafka_metadata_topic_t;
-alias rd_kafka_metadata rd_kafka_metadata_t;
+alias kafka_errors rd_kafka_resp_err_t;
+
+alias kafka_conf rd_kafka_conf_res_t;
+ 
+
 
 enum rd_kafka_type_t
 {
@@ -66,7 +61,7 @@ enum kafka_conf
     RD_KAFKA_CONF_OK = 0
 }
 
-struct rd_kafka_message_s
+struct rd_kafka_message_t
 {
     rd_kafka_resp_err_t err;
     rd_kafka_topic_t* rkt;
@@ -79,14 +74,14 @@ struct rd_kafka_message_s
     void* _private;
 }
 
-struct rd_kafka_metadata_broker
+struct rd_kafka_metadata_broker_t
 {
     int id;
     char* host;
     int port;
 }
 
-struct rd_kafka_metadata_partition
+struct rd_kafka_metadata_partition_t
 {
     int id;
     rd_kafka_resp_err_t err;
@@ -97,37 +92,37 @@ struct rd_kafka_metadata_partition
     int* isrs;
 }
 
-struct rd_kafka_metadata_topic
+struct rd_kafka_metadata_topic_t
 {
     char* topic;
     int partition_cnt;
-    rd_kafka_metadata_partition* partitions;
+    rd_kafka_metadata_partition_t* partitions;
     rd_kafka_resp_err_t err;
 }
 
-struct rd_kafka_metadata
+struct rd_kafka_metadata_t
 {
     int broker_cnt;
-    rd_kafka_metadata_broker* brokers;
+    rd_kafka_metadata_broker_t* brokers;
     int topic_cnt;
-    rd_kafka_metadata_topic* topics;
+    rd_kafka_metadata_topic_t* topics;
     int orig_broker_id;
     char* orig_broker_name;
 }
 
-struct rd_kafka_s;
+struct rd_kafka_t;
 
 
-struct rd_kafka_topic_s;
+struct rd_kafka_topic_t;
 
 
-struct rd_kafka_conf_s;
+struct rd_kafka_conf_t;
 
 
-struct rd_kafka_topic_conf_s;
+struct rd_kafka_topic_conf_t;
 
 
-struct rd_kafka_queue_s;
+struct rd_kafka_queue_t;
 
 
 int rd_kafka_version ();
@@ -181,8 +176,8 @@ int rd_kafka_consume_callback_queue (rd_kafka_queue_t* rkqu, int timeout_ms, voi
 rd_kafka_resp_err_t rd_kafka_offset_store (rd_kafka_topic_t* rkt, int partition, long offset);
 int rd_kafka_produce (rd_kafka_topic_t* rkt, int partitition, int msgflags, void* payload, size_t len, const(void)* key, size_t keylen, void* msg_opaque);
 int rd_kafka_produce_batch (rd_kafka_topic_t* rkt, int partition, int msgflags, rd_kafka_message_t* rkmessages, int message_cnt);
-rd_kafka_resp_err_t rd_kafka_metadata (rd_kafka_t* rk, int all_topics, rd_kafka_topic_t* only_rkt, const(rd_kafka_metadata*)* metadatap, int timeout_ms);
-void rd_kafka_metadata_destroy (const(rd_kafka_metadata)* metadata);
+rd_kafka_resp_err_t rd_kafka_metadata (rd_kafka_t* rk, int all_topics, rd_kafka_topic_t* only_rkt, const(rd_kafka_metadata_t*)* metadatap, int timeout_ms);
+void rd_kafka_metadata_destroy (const(rd_kafka_metadata_t)* metadata);
 int rd_kafka_poll (rd_kafka_t* rk, int timeout_ms);
 int rd_kafka_brokers_add (rd_kafka_t* rk, const(char)* brokerlist);
 void rd_kafka_set_logger (rd_kafka_t* rk, void function (const(rd_kafka_t)*, int, const(char)*, const(char)*) func);
