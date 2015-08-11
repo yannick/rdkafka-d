@@ -1,4 +1,4 @@
-module kafka;
+module deimos.rdkafka;
 
 import core.stdc.stdio;
 import core.sys.posix.sys.types; 
